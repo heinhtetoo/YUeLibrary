@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "701048294421",
+    "firebase_url": "https://yu-elibrary.firebaseio.com",
+    "project_id": "yu-elibrary",
+    "storage_bucket": "yu-elibrary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701048294421:android:8e4e8fdb92f62840",
+        "android_client_info": {
+          "package_name": "heinhtetoo.yuelibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701048294421-0vggrd7rsh036leoeo2n1e0vaob9dfna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcibQWGgelgT06Q28jhLa-3zOWeJDAvTk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,18 +8,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import heinhtetoo.yuelibrary.PdfViewActivity;
 import heinhtetoo.yuelibrary.R;
+import heinhtetoo.yuelibrary.data.models.BookModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
 
 public class BookDetailActivity extends AppCompatActivity {
+
+    private static final String IE_BOOK_ID = "bookId";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -42,15 +49,11 @@ public class BookDetailActivity extends AppCompatActivity {
     @Bind(R.id.fab)
     FloatingActionButton fab;
 
-    private String bookId;
-    private String bookName;
-    private String bookCover;
+    private BookVO mBook;
 
-    public static Intent newIntent(Context context, String id, String name, String cover) {
+    public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, BookDetailActivity.class);
         intent.putExtra("bookId", id);
-        intent.putExtra("bookName", name);
-        intent.putExtra("bookCover", cover);
         return intent;
     }
 
@@ -60,9 +63,8 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_detail);
         ButterKnife.bind(this, this);
 
-        bookId = getIntent().getStringExtra("bookId");
-        bookName = getIntent().getStringExtra("bookName");
-        bookCover = getIntent().getStringExtra("bookCover");
+        int bookId = getIntent().getIntExtra(IE_BOOK_ID, 0);
+        mBook = BookModel.getInstance().getBookById(bookId);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -71,6 +73,14 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 
         bindData();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = PdfViewActivity.newIntent(view.getContext());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -89,14 +99,48 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void bindData() {
+
+        String name = "unavailable";
+        String author = "unavailable";
+        String cover_art = "";
+        String categoryStr = "";
+        String description = "unavailable";
+
+        if (mBook.getCategory().size() > 0) {
+            List<String> categoryArray = mBook.getCategory();
+            for (int i = 0; i < categoryArray.size(); i++) {
+                categoryStr += categoryArray.get(i) + ", ";
+            }
+            categoryStr = categoryStr.trim();
+            categoryStr = categoryStr.substring(0, categoryStr.length() - 1);
+        } else {
+            categoryStr = "unavailable";
+        }
+
+        if (mBook.getName() != null && !mBook.getName().isEmpty()) {
+            name = mBook.getName();
+        }
+
+        if (mBook.getAuthor() != null && !mBook.getAuthor().isEmpty()) {
+            author = mBook.getAuthor();
+        }
+
+        if (mBook.getCoverArt() != null && !mBook.getCoverArt().isEmpty()) {
+            cover_art = mBook.getCoverArt();
+        }
+
+        if (mBook.getDescription() != null && !mBook.getDescription().isEmpty()) {
+            description = mBook.getDescription();
+        }
+
         Glide.with(ivCover.getContext())
-                .load(bookCover)
+                .load(cover_art)
                 .placeholder(R.drawable.manga_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivCover);
-        tvTitle.setText(bookName);
-        tvAuthor.setText("Someone");
-        tvCategories.setText("Romance");
-        tvDescription.setText("Nothing");
+        tvTitle.setText(name);
+        tvAuthor.setText(author);
+        tvCategories.setText(categoryStr);
+        tvDescription.setText(description);
     }
 }

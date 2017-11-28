@@ -36,7 +36,7 @@ public class BookVH extends BaseViewHolder<BookVO> {
     public void bind(BookVO data) {
         mBook = data;
         Glide.with(ivCover.getContext())
-                .load(mBook.getCover_art())
+                .load(mBook.getCoverArt())
                 .placeholder(R.drawable.manga_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivCover);

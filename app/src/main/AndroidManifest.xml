@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.BookDetailActivity" />
-        <activity android:name=".activities.UserAccountActivity"></activity>
+        <activity android:name=".activities.UserAccountActivity" />
+        <activity android:name=".PdfViewActivity"></activity>
     </application>
 
 </manifest>
