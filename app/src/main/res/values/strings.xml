@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">YU eLibrary</string>
+
+    <string name="auth_loading">Authenticating</string>
+
+    <string name="confirm_logout">Are you sure to Logout?</string>
+
+    <string name="account_id_key">heinhtetoo.yuelibrary.USER_LOGIN_ACCOUNT_ID_KEY</string>
+    <string name="user_pref_file_key">heinhtetoo.yuelibrary.USER_REF_FILE_KEY</string>
 </resources>

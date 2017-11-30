@@ -9,6 +9,10 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
+        buildConfigField 'String', 'Google_Sign_In_Id_Token', "\"${googleSignInIdToken}\""
+        buildConfigField 'String', 'Google_Client_Secret', "\"${googleClientSecret}\""
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,10 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -37,8 +45,11 @@ dependencies {
 
     compile 'com.github.barteksc:android-pdf-viewer:2.8.1'
 
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
+
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-database:11.6.2'
+    compile 'com.google.firebase:firebase-auth:11.6.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,6 @@
 package heinhtetoo.yuelibrary.views.viewholders;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,10 +37,12 @@ public class BookVH extends BaseViewHolder<BookVO> {
     public void bind(BookVO data) {
         mBook = data;
         Glide.with(ivCover.getContext())
-                .load(mBook.getCoverArt())
+                .load(mBook.getCover_art())
                 .placeholder(R.drawable.manga_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivCover);
+
+        //Log.d("book-cover", mBook.getCover_art() + "");
         tvName.setText(mBook.getName());
     }
 

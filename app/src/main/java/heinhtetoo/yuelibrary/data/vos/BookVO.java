@@ -14,7 +14,7 @@ public class BookVO {
 
     private String author;
 
-    private String coverArt;
+    private String cover_art;
 
     private List<String> category;
 
@@ -38,8 +38,8 @@ public class BookVO {
         return author;
     }
 
-    public String getCoverArt() {
-        return coverArt;
+    public String getCover_art() {
+        return cover_art;
     }
 
     public List<String> getCategory() {
