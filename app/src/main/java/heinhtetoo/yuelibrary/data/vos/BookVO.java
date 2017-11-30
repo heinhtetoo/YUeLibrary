@@ -1,10 +1,14 @@
 package heinhtetoo.yuelibrary.data.vos;
 
+import java.util.List;
+
 /**
  * Created by Hein Htet Oo on 11/21/2017.
  */
 
 public class BookVO {
+
+    private int id;
 
     private String name;
 
@@ -12,10 +16,18 @@ public class BookVO {
 
     private String cover_art;
 
-    public BookVO(String name, String author, String cover_art) {
-        this.name = name;
-        this.author = author;
-        this.cover_art = cover_art;
+    private List<String> category;
+
+    private String language;
+
+    private int pageCount;
+
+    private String description;
+
+    private String downloadUrl;
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -28,5 +40,25 @@ public class BookVO {
 
     public String getCover_art() {
         return cover_art;
+    }
+
+    public List<String> getCategory() {
+        return category;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 }
