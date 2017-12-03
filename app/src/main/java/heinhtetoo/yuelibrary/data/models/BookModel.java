@@ -81,6 +81,13 @@ public class BookModel {
         });
     }
 
+    public List<BookVO> getBookList() {
+        if (bookList == null) {
+            bookList = new ArrayList<>();
+        }
+        return bookList;
+    }
+
     public BookVO getBookById(int id) {
         BookVO book = new BookVO();
         for (BookVO bookVO : bookList) {

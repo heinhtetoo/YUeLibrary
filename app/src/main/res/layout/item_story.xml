@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_default_elevation"
+    app:cardMaxElevation="@dimen/card_rising_elevation"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_heading_height"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium_2"
+            android:paddingLeft="@dimen/margin_medium_2"
+            android:paddingRight="@dimen/margin_medium_2"
+            android:paddingStart="@dimen/margin_medium_2"
+            android:paddingTop="@dimen/margin_medium_2"
+            android:weightSum="6">
+
+            <ImageView
+                android:id="@+id/iv_author_profile"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/ic_account"
+                android:tint="@color/primary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.5"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/margin_medium_2"
+                    android:paddingStart="@dimen/margin_medium_2"
+                    android:text="User"
+                    android:textSize="@dimen/text_regular_2x"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_published_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/margin_medium_2"
+                    android:paddingStart="@dimen/margin_medium_2"
+                    android:text="10:20 | 30 Nov 2017"
+                    android:textSize="@dimen/text_regular" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical|end">
+
+                <TextView
+                    android:id="@+id/tv_react_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="@dimen/text_regular_2x"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_love" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/margin_medium_2"
+            android:paddingEnd="@dimen/margin_medium_2"
+            android:paddingLeft="@dimen/margin_medium_2"
+            android:paddingRight="@dimen/margin_medium_2"
+            android:paddingStart="@dimen/margin_medium_2"
+            android:text="Heading"
+            android:textSize="@dimen/text_regular_3x"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_story_pic"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@id/tv_title"
+            android:scaleType="center"
+            android:src="@drawable/manga_image" />
+
+        <TextView
+            android:id="@+id/tv_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_story_pic"
+            android:maxLines="3"
+            android:paddingBottom="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_medium_2"
+            android:paddingLeft="@dimen/margin_medium_2"
+            android:paddingRight="@dimen/margin_medium_2"
+            android:paddingStart="@dimen/margin_medium_2"
+            android:paddingTop="@dimen/margin_medium_2"
+            android:text="Heading"
+            android:textSize="@dimen/text_regular" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_body"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/margin_medium_2"
+            android:paddingEnd="@dimen/margin_medium_2"
+            android:paddingLeft="@dimen/margin_medium_2"
+            android:paddingRight="@dimen/margin_medium_2"
+            android:paddingStart="@dimen/margin_medium_2"
+            android:weightSum="5">
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:id="@+id/layout_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tv_attributes_session"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:paddingRight="@dimen/margin_medium_2"
+                android:text="10 Comments     |     9 Views"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
