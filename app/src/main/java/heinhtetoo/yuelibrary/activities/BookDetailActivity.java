@@ -72,8 +72,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.fab)
-    public void onClickFab(View view) {
+    @OnClick(R.id.fab_view_pdf)
+    public void onClickFabViewPdf(View view) {
         Intent intent = PdfViewActivity.newIntent(view.getContext(),mBook.getName(), mBook.getDownloadUrl());
         startActivity(intent);
     }
