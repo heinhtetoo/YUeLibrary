@@ -1,10 +1,19 @@
 package heinhtetoo.yuelibrary.data.models;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -13,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import heinhtetoo.yuelibrary.data.vos.CommentVO;
 import heinhtetoo.yuelibrary.data.vos.StoryVO;
 import heinhtetoo.yuelibrary.events.DataEvents;
 
@@ -23,6 +33,8 @@ import heinhtetoo.yuelibrary.events.DataEvents;
 public class StoryModel {
 
     private static final String STORY = "stories";
+    public static final String FIREBASE_STORAGE_BUCKET = "gs://yu-elibrary.appspot.com";
+    public static final String UPLOAD_IMAGE_PATH = "images";
 
     private static StoryModel objInstance;
 
@@ -55,15 +67,15 @@ public class StoryModel {
                         storyVOS.add(story);
                     }
 
-                    Collections.sort(storyList, new Comparator<StoryVO>() {
+                    Collections.sort(storyVOS, new Comparator<StoryVO>() {
                         @Override
                         public int compare(StoryVO s1, StoryVO s2) {
                             if (s1.getStoryId() > s2.getStoryId())
-                                return 1;
-                            else if (s1.getStoryId() < s2.getStoryId())
                                 return -1;
-
-                            return 0;
+                            else if (s1.getStoryId() < s2.getStoryId())
+                                return 1;
+                            else
+                                return 0;
                         }
                     });
 
@@ -77,6 +89,34 @@ public class StoryModel {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public void addStory(String title, String body, List<String> tags, String image) {
+        StoryVO story = StoryVO.initStory(title, body, tags, image);
+        mStoryDr.child(String.valueOf(story.getPublishedDate())).setValue(story);
+    }
+
+    public void uploadFile(String fileToUpload, final UploadFileCallback callback) {
+        Uri file = Uri.parse(fileToUpload);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl(FIREBASE_STORAGE_BUCKET);
+
+        StorageReference uploadFileRef = storageRef.child(UPLOAD_IMAGE_PATH + "/" + file.getLastPathSegment());
+        UploadTask uploadTask = uploadFileRef.putFile(file);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                callback.onUploadFailed(e.getMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri uploadedImageUrl = taskSnapshot.getDownloadUrl();
+                Log.d("Add New Story", "Uploaded Image Url : " + uploadedImageUrl);
+
+                callback.onUploadSucceeded(uploadedImageUrl.toString());
             }
         });
     }
@@ -96,6 +136,12 @@ public class StoryModel {
             }
         }
         return story;
+    }
+
+    public interface UploadFileCallback {
+        void onUploadSucceeded(String uploadedPaths);
+
+        void onUploadFailed(String msg);
     }
 
 }

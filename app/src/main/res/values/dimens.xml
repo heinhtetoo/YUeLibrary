@@ -4,12 +4,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="title_height">148dp</dimen>
+
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_medium_2">16dp</dimen>
     <dimen name="margin_medium_3">18dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>
+
+    <dimen name="margin_comment">36dp</dimen>
 
     <dimen name="pager_padding">0dp</dimen>
     <dimen name="tab_elevation">4dp</dimen>

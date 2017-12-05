@@ -1,6 +1,7 @@
 package heinhtetoo.yuelibrary.views.viewholders;
 
 import android.graphics.Color;
+import android.support.v7.widget.DividerItemDecoration;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
@@ -68,11 +69,15 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivAuthorProfile);
 
-        Glide.with(ivStoryPic.getContext())
-                .load(mStory.getPictureUrl())
-                .placeholder(R.drawable.manga_image)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(ivStoryPic);
+        if (mStory.getPictureUrl() != null && !mStory.getPictureUrl().isEmpty()) {
+            Glide.with(ivStoryPic.getContext())
+                    .load(mStory.getPictureUrl())
+                    .placeholder(R.drawable.manga_image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ivStoryPic);
+        } else {
+            ivStoryPic.setVisibility(View.GONE);
+        }
 
         layoutTags.removeAllViews();
 
@@ -80,7 +85,7 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
             TextView textView = new TextView(itemView.getContext());
             MMFontUtils.setMMFont(textView);
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            textView.setBackgroundResource(R.color.accent);
+            textView.setBackgroundResource(R.color.primary_dark);
             textView.setGravity(Gravity.CENTER);
             if (!MMFontUtils.isSupportUnicode()) {
                 textView.setText(Html.fromHtml(MMFontUtils.mmText(tag, MMFontUtils.TEXT_UNICODE, true, true)));
@@ -88,7 +93,7 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
                 textView.setText(Html.fromHtml(tag));
             }
             textView.setPadding(16, 16, 16, 16);
-            textView.setTextColor(Color.DKGRAY);
+            textView.setTextColor(Color.WHITE);
             textView.setMaxLines(1);
             layoutTags.addView(textView);
         }

@@ -1,7 +1,11 @@
 package heinhtetoo.yuelibrary.data.vos;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import heinhtetoo.yuelibrary.data.models.UserModel;
 
 /**
  * Created by Hein Htet Oo on 12/1/2017.
@@ -113,5 +117,23 @@ public class StoryVO {
             tags = new ArrayList<>();
         }
         return tags;
+    }
+
+    public static StoryVO initStory(String title, String body, List<String> tags, String image) {
+        StoryVO story = new StoryVO();
+        story.title = title;
+        story.body = body;
+        story.tags = tags;
+        story.pictureUrl = image;
+
+        story.storyId = (int)(System.currentTimeMillis() / 1000);
+        story.publishedDate = String.valueOf((System.currentTimeMillis() / 1000));
+        story.pictureUrl = image;
+
+        story.authorId = UserModel.getInstance().getUser().getAccountId();
+        story.authorName = UserModel.getInstance().getUser().getDisplayName();
+        story.authorProfileUrl = UserModel.getInstance().getUser().getPhotoUrl();
+
+        return story;
     }
 }

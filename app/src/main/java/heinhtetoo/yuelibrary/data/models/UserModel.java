@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import heinhtetoo.yuelibrary.R;
+import heinhtetoo.yuelibrary.activities.UserAccountActivity;
 import heinhtetoo.yuelibrary.data.vos.UserVO;
 import heinhtetoo.yuelibrary.utils.PrefUtils;
 
@@ -37,7 +38,7 @@ public class UserModel {
 
     private static final String TAG = "UserAccountActivity";
 
-    private static final String LIB_USER = "users";
+    public static final String LIB_USER = "users";
 
     private static UserModel objInstance;
 
@@ -46,6 +47,8 @@ public class UserModel {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+
+    private UserVO mUser;
 
     private UserModel() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -62,7 +65,7 @@ public class UserModel {
     }
 
     public boolean isUserSignIn() {
-        return mFirebaseUser != null;
+        return mUser != null;
     }
 
     public void firebaseAuthWithGoogle(final GoogleSignInAccount acct,
@@ -107,6 +110,7 @@ public class UserModel {
                 UserVO user = dataSnapshot.getValue(UserVO.class);
                 if (user != null) {
                     delegate.onSuccessSignIn(user);
+                    mUser = user;
                 } else {
                     Uri photoUri = signInAccount.getPhotoUrl();
                     String photoUrl = (photoUri != null) ? photoUri.toString() : null;
@@ -116,6 +120,7 @@ public class UserModel {
                             null, null, null, null);
                     registerNewUser(newUser);
                     delegate.onSuccessSignIn(newUser);
+                    mUser = newUser;
                 }
             }
 
@@ -151,6 +156,7 @@ public class UserModel {
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
+                        mUser = null;
                         delegate.onLogoutSuccess();
                     }
                 });
@@ -170,6 +176,33 @@ public class UserModel {
     public String getAccountIdFromPref(Context context) {
         SharedPreferences sharedPreferences = PrefUtils.getSharedPrefs(context);
         return sharedPreferences.getString(context.getString(R.string.account_id_key), null);
+    }
+
+    public void removeAccountIdFromPref(Context context) {
+        SharedPreferences.Editor editor = PrefUtils.getSharedPrefs(context).edit();
+        editor.putString(context.getString(R.string.account_id_key), null);
+        editor.apply();
+    }
+
+    public void loadUserFromPref(String id) {
+        mUserDr.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserVO user = dataSnapshot.getValue(UserVO.class);
+                if (user != null) {
+                    mUser = user;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public UserVO getUser() {
+        return mUser;
     }
 
     public interface SignInWithGoogleAccountDelegate {

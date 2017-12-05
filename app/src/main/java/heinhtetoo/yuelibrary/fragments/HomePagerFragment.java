@@ -74,12 +74,15 @@ public class HomePagerFragment extends Fragment {
                 switch (tlHome.getSelectedTabPosition()) {
                     case 0:
                         title = getString(R.string.shelf);
+                        getActivity().findViewById(R.id.fab_new_story).setVisibility(View.GONE);
                         break;
                     case 1:
                         title = getString(R.string.story);
+                        getActivity().findViewById(R.id.fab_new_story).setVisibility(View.VISIBLE);
                         break;
                     default:
                         title = getString(R.string.shelf);
+                        getActivity().findViewById(R.id.fab_new_story).setVisibility(View.GONE);
                         break;
                 }
 

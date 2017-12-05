@@ -1,6 +1,7 @@
 package heinhtetoo.yuelibrary.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +76,11 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
     @Bind(R.id.btn_logout)
     Button btnLogout;
 
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, UserAccountActivity.class);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +136,7 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
         super.onStart();
 
         if (mUserModel.isUserSignIn()) {
+            showProgress("Loading");
             mUserModel.syncJobPosterInfo(mUserModel.getAccountIdFromPref(this), new UserModel.SyncUserInfoDelegate() {
                 @Override
                 public void syncUserInfo(UserVO user) {
@@ -182,7 +189,7 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
                 });
     }*/
 
-    private void signIn() {
+    public void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -205,20 +212,12 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
 
                 @Override
                 public void showProgressDialog(String msg) {
-                    if (mProgressDialog == null) {
-                        mProgressDialog = new ProgressDialog(UserAccountActivity.this);
-                        mProgressDialog.setMessage(msg);
-                        mProgressDialog.setIndeterminate(true);
-                    }
-
-                    mProgressDialog.show();
+                    showProgress(msg);
                 }
 
                 @Override
                 public void hideProgressDialog() {
-                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                    }
+                    hideProgress();
                 }
             });
         } else {
@@ -231,6 +230,7 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
         mUserModel.signOut(mGoogleApiClient, new UserModel.LogoutDelegate() {
             @Override
             public void onLogoutSuccess() {
+                mUserModel.removeAccountIdFromPref(UserAccountActivity.this);
                 updateUser(null);
             }
         });
@@ -251,6 +251,7 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
             btnLogout.setVisibility(View.VISIBLE);
             layoutEmailHolder.setVisibility(View.VISIBLE);
             layoutPhoneHolder.setVisibility(View.VISIBLE);
+            hideProgress();
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.ic_account));
             tvUserName.setText("Kirito-kun");
@@ -265,5 +266,21 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void showProgress(String msg) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(UserAccountActivity.this);
+            mProgressDialog.setMessage(msg);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package heinhtetoo.yuelibrary.activities;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -18,10 +22,12 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.adapters.BookListAdapter;
 import heinhtetoo.yuelibrary.controllers.BookItemController;
 import heinhtetoo.yuelibrary.controllers.StoryItemController;
+import heinhtetoo.yuelibrary.data.models.UserModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
 import heinhtetoo.yuelibrary.data.vos.StoryVO;
 import heinhtetoo.yuelibrary.events.DataEvents;
@@ -47,9 +53,18 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
 
     private int mCurrentIndex;
 
+    private DatabaseReference mUserDr;
+
     @Override
     protected void onStart() {
         super.onStart();
+
+        String userId = UserModel.getInstance().getAccountIdFromPref(this);
+        mUserDr = FirebaseDatabase.getInstance().getReference().child(UserModel.LIB_USER);
+        if (userId != null) {
+            UserModel.getInstance().loadUserFromPref(userId);
+        }
+
         EventBus.getDefault().register(this);
         //BookModel.getInstance().loadBooks();
     }
@@ -109,16 +124,32 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
         }
     }
 
+    @OnClick(R.id.fab_new_story)
+    public void onClickFabNewStory() {
+        if (UserModel.getInstance().isUserSignIn()) {
+            startAddStoryActivity();
+        } else {
+            Snackbar.make(tvTitle, "You need to sign in with Google to add story.", Snackbar.LENGTH_INDEFINITE).setAction("Sign In", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startUserAccountActivity();
+                }
+            }).show();
+        }
+    }
+
     @Override
     public void onClickBook(View view, BookVO book) {
-        Intent intent = BookDetailActivity.newIntent(this.getApplicationContext(), book.getId());
+        Intent intent = BookDetailActivity.newIntent(this, book.getId());
 
         startActivity(intent);
     }
 
     @Override
     public void onClickBook(View view, StoryVO story) {
-        Toast.makeText(this, "Story Detial Screen", Toast.LENGTH_SHORT).show();
+        Intent intent = StoryDetailActivity.newIntent(this, story.getStoryId());
+
+        startActivity(intent);
     }
 
     @Override
@@ -132,8 +163,7 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
         int id = item.getItemId();
 
         if (id == R.id.action_my_account) {
-            Intent intent = new Intent(this, UserAccountActivity.class);
-            startActivity(intent);
+            startUserAccountActivity();
             return true;
         }
 
@@ -148,6 +178,18 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
 
     public void setTitle(String title) {
         tvTitle.setText(title);
+    }
+
+    private void startAddStoryActivity() {
+        Intent intent = AddStoryActivity.newIntent(this);
+
+        startActivity(intent);
+    }
+
+    private void startUserAccountActivity() {
+        Intent intent = UserAccountActivity.newIntent(this);
+
+        startActivity(intent);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

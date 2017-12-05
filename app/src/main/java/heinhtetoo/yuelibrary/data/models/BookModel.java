@@ -55,15 +55,15 @@ public class BookModel {
                         bookVOS.add(book);
                     }
 
-                    Collections.sort(bookList, new Comparator<BookVO>() {
+                    Collections.sort(bookVOS, new Comparator<BookVO>() {
                         @Override
                         public int compare(BookVO b1, BookVO b2) {
                             if (b1.getId() > b2.getId())
-                                return 1;
-                            else if (b1.getId() < b2.getId())
                                 return -1;
-
-                            return 0;
+                            else if (b1.getId() < b2.getId())
+                                return 1;
+                            else
+                                return 0;
                         }
                     });
 
@@ -92,7 +92,7 @@ public class BookModel {
         BookVO book = new BookVO();
         for (BookVO bookVO : bookList) {
             if (bookVO.getId() == id) {
-                book =  bookVO;
+                book = bookVO;
             }
         }
         return book;
