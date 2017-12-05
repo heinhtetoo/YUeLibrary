@@ -26,6 +26,21 @@ public class BookVO {
 
     private String downloadUrl;
 
+    public BookVO() {
+    }
+
+    public BookVO(int id, String name, String author, String cover_art, List<String> category, String language, int pageCount, String description, String downloadUrl) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.cover_art = cover_art;
+        this.category = category;
+        this.language = language;
+        this.pageCount = pageCount;
+        this.description = description;
+        this.downloadUrl = downloadUrl;
+    }
+
     public int getId() {
         return id;
     }

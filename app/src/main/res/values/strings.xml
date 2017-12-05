@@ -7,4 +7,7 @@
 
     <string name="account_id_key">heinhtetoo.yuelibrary.USER_LOGIN_ACCOUNT_ID_KEY</string>
     <string name="user_pref_file_key">heinhtetoo.yuelibrary.USER_REF_FILE_KEY</string>
+
+    <string name="shelf">Shelf</string>
+    <string name="story">Story</string>
 </resources>

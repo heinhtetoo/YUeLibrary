@@ -22,7 +22,9 @@
         </activity>
         <activity android:name=".activities.BookDetailActivity" />
         <activity android:name=".activities.UserAccountActivity" />
-        <activity android:name=".activities.PdfViewActivity"></activity>
+        <activity android:name=".activities.PdfViewActivity" />
+        <activity android:name=".activities.AddStoryActivity" />
+        <activity android:name=".activities.StoryDetailActivity"></activity>
     </application>
 
 </manifest>
