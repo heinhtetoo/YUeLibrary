@@ -2,15 +2,13 @@ package heinhtetoo.yuelibrary.activities;
 
 import android.content.Context;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-=======
->>>>>>> 978476e8d88eb78f5cfc1487e25f95ca0b746d09
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,6 +18,7 @@ import butterknife.OnClick;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.data.models.BookModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
+import heinhtetoo.yuelibrary.utils.MMFontUtils;
 
 public class BookDetailActivity extends AppCompatActivity {
 
@@ -42,6 +41,12 @@ public class BookDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.tv_description)
     TextView tvDescription;*/
+
+    @Bind(R.id.tv_page_count)
+    TextView tvPageCount;
+
+    @Bind(R.id.tv_language)
+    TextView tvLanguage;
 
     private BookVO mBook;
 
@@ -73,25 +78,12 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 
         bindData();
-
-<<<<<<< HEAD
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = PdfViewActivity.newIntent(view.getContext());
-                startActivity(intent);
-            }
-        });
-
-        
-=======
     }
 
-    @OnClick(R.id.fab_view_pdf)
-    public void onClickFabViewPdf(View view) {
-        Intent intent = PdfViewActivity.newIntent(view.getContext(),mBook.getName(), mBook.getDownloadUrl());
+    @OnClick(R.id.btn_read)
+    public void onClickBtnRead(View view) {
+        Intent intent = PdfViewActivity.newIntent(view.getContext(), mBook.getName(), mBook.getDownload_url());
         startActivity(intent);
->>>>>>> 978476e8d88eb78f5cfc1487e25f95ca0b746d09
     }
 
     @Override
@@ -116,11 +108,12 @@ public class BookDetailActivity extends AppCompatActivity {
         String cover_art = "";
         String categoryStr = "";
         String description = "unavailable";
+        String language = "unknown";
 
        /* if (mBook.getCategory().size() > 0) {
             List<String> categoryArray = mBook.getCategory();
             for (int i = 0; i < categoryArray.size(); i++) {
-                categoryStr += categoryArray.get(i) + ", ";
+                categoryStr += categoryArray.get(i) + "| ";
             }
             categoryStr = categoryStr.trim();
             categoryStr = categoryStr.substring(0, categoryStr.length() - 1);
@@ -143,8 +136,17 @@ public class BookDetailActivity extends AppCompatActivity {
         if (mBook.getDescription() != null && !mBook.getDescription().isEmpty()) {
             description = mBook.getDescription();
         }
-*/
-        /*Glide.with(ivCover.getContext())
+
+        if (mBook.getLanguage() != null && !mBook.getLanguage().isEmpty()) {
+            language = mBook.getLanguage();
+        }
+
+        name = MMFontUtils.mmTextUnicodeOrigin(name);
+        author = MMFontUtils.mmTextUnicodeOrigin(author);
+        description = MMFontUtils.mmTextUnicodeOrigin(description);
+        language = MMFontUtils.mmTextUnicodeOrigin(language);
+
+        Glide.with(ivCover.getContext())
                 .load(cover_art)
                 .placeholder(R.drawable.manga_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -152,6 +154,9 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle.setText(name);
         tvAuthor.setText(author);
         tvCategories.setText(categoryStr);
-        tvDescription.setText(description);*/
+
+        tvDescription.setText(description);
+        tvPageCount.setText(mBook.getPageCount() + " pages");
+        tvLanguage.setText(language);
     }
 }

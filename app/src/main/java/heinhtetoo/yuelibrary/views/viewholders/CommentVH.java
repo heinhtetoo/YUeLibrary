@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.Bind;
+import de.hdodenhof.circleimageview.CircleImageView;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.controllers.CommentItemController;
 import heinhtetoo.yuelibrary.data.vos.CommentVO;
+import heinhtetoo.yuelibrary.utils.MMFontUtils;
 
 /**
  * Created by Hein Htet Oo on 12/5/2017.
@@ -19,7 +21,7 @@ import heinhtetoo.yuelibrary.data.vos.CommentVO;
 public class CommentVH extends BaseViewHolder<CommentVO> {
 
     @Bind(R.id.iv_profile)
-    ImageView ivProfile;
+    CircleImageView ivProfile;
 
     @Bind(R.id.tv_writer)
     TextView tvWriter;
@@ -43,13 +45,19 @@ public class CommentVH extends BaseViewHolder<CommentVO> {
         mComment = data;
         Glide.with(ivProfile.getContext())
                 .load(mComment.getCommentWriterProfileUrl())
+                .dontAnimate()
                 .placeholder(R.drawable.ic_account)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivProfile);
 
-        tvWriter.setText(mComment.getCommentWriter());
+        String writer = MMFontUtils.mmTextUnicodeOrigin(mComment.getCommentWriter());
+        String comment = MMFontUtils.mmTextUnicodeOrigin(mComment.getCommentBody());
+
+        //TODO : show commented time
+        tvWriter.setText(writer);
         tvTime.setText(String.valueOf(mComment.getCommentTimestamp()));
-        tvBody.setText(mComment.getCommentBody());
+        tvTime.setVisibility(View.GONE);
+        tvBody.setText(comment);
     }
 
     @Override
