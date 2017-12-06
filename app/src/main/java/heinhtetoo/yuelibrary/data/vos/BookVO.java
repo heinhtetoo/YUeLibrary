@@ -1,5 +1,6 @@
 package heinhtetoo.yuelibrary.data.vos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +59,9 @@ public class BookVO {
     }
 
     public List<String> getCategory() {
+        if (category == null) {
+            category = new ArrayList<>();
+        }
         return category;
     }
 

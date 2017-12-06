@@ -4,109 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="heinhtetoo.yuelibrary.activities.BookDetailActivity"
-    android:fitsSystemWindows="true">
+    tools:context="heinhtetoo.yuelibrary.activities.BookDetailActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:theme="@style/AppTheme.AppBarOverlay">
-        
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        </android.support.v7.widget.Toolbar>
-        
-    </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <RelativeLayout
-            android:id="@+id/rl_book_detail"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:background="@drawable/burma_book_cover_blur">
-
-            <ImageView
-                android:id="@+id/iv_book_cover"
-                android:layout_width="150dp"
-                android:layout_height="230dp"
-                android:src="@drawable/burma_book_cover"
-                android:paddingLeft="@dimen/margin_medium_3"/>
-
-            <TextView
-                android:id="@+id/iv_book_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_book_cover"
-                android:text="Myanmar (Burma)"
-                android:textSize="@dimen/text_big"
-                android:layout_marginLeft="@dimen/margin_medium"/>
-
-            <TextView
-                android:id="@+id/iv_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/iv_book_cover"
-                android:layout_below="@id/iv_book_title"
-                android:text="Author"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_regular_3x"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/accent"
-                android:text="Read Now"
-                android:textColor="#ffffff"
-                android:layout_toRightOf="@id/iv_book_cover"
-                android:layout_below="@id/iv_author"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_details"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_below="@id/rl_book_detail"
-            android:overScrollMode="always">
-
-           <TextView
-               android:id="@+id/tv_description_title"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Description"
-               android:textSize="@dimen/text_regular_3x"
-               android:textStyle="bold"
-               android:layout_marginTop="@dimen/margin_medium_2"/>
-
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_description_title"
-                android:textSize="@dimen/text_regular_2x"
-                android:maxLines="10"
-                android:text="@string/dummy_text_5paragraph"/>
-        </RelativeLayout>
-
-        <RelativeLayout
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rl_details"
-            android:padding="@dimen/margin_small"
-            android:layout_margin="@dimen/margin_medium">
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
