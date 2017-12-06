@@ -85,6 +85,7 @@ public class AddStoryActivity extends AppCompatActivity {
         ButterKnife.bind(this, this);
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.activity_add_new_story));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
