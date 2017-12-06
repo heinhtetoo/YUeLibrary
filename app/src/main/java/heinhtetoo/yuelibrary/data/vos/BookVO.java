@@ -24,12 +24,12 @@ public class BookVO {
 
     private String description;
 
-    private String downloadUrl;
+    private String download_url;
 
     public BookVO() {
     }
 
-    public BookVO(int id, String name, String author, String cover_art, List<String> category, String language, int pageCount, String description, String downloadUrl) {
+    public BookVO(int id, String name, String author, String cover_art, List<String> category, String language, int pageCount, String description, String download_url) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -38,7 +38,7 @@ public class BookVO {
         this.language = language;
         this.pageCount = pageCount;
         this.description = description;
-        this.downloadUrl = downloadUrl;
+        this.download_url = download_url;
     }
 
     public int getId() {
@@ -73,7 +73,7 @@ public class BookVO {
         return description;
     }
 
-    public String getDownloadUrl() {
-        return downloadUrl;
+    public String getDownload_url() {
+        return download_url;
     }
 }

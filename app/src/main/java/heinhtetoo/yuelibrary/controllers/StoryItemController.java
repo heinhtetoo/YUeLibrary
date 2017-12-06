@@ -9,5 +9,5 @@ import heinhtetoo.yuelibrary.data.vos.StoryVO;
  */
 
 public interface StoryItemController {
-    void onClickBook(View view, StoryVO story);
+    void onClickStory(View view, StoryVO story);
 }

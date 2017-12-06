@@ -93,9 +93,10 @@ public class StoryModel {
         });
     }
 
-    public void addStory(String title, String body, List<String> tags, String image) {
+    public int addStory(String title, String body, List<String> tags, String image) {
         StoryVO story = StoryVO.initStory(title, body, tags, image);
         mStoryDr.child(String.valueOf(story.getPublishedDate())).setValue(story);
+        return story.getStoryId();
     }
 
     public void uploadFile(String fileToUpload, final UploadFileCallback callback) {

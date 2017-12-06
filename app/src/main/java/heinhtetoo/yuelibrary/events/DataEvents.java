@@ -3,6 +3,7 @@ package heinhtetoo.yuelibrary.events;
 import java.util.List;
 
 import heinhtetoo.yuelibrary.data.vos.BookVO;
+import heinhtetoo.yuelibrary.data.vos.LibBookVO;
 import heinhtetoo.yuelibrary.data.vos.StoryVO;
 
 /**
@@ -44,6 +45,18 @@ public class DataEvents {
 
         public List<StoryVO> getStoryList() {
             return storyList;
+        }
+    }
+
+    public static class LibBookListLoadedEvent {
+        private List<LibBookVO> libBookList;
+
+        public LibBookListLoadedEvent(List<LibBookVO> libBookList) {
+            this.libBookList = libBookList;
+        }
+
+        public List<LibBookVO> getLibBookList() {
+            return libBookList;
         }
     }
 
