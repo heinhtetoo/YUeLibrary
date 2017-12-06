@@ -39,7 +39,8 @@ public class HomePagerFragment extends Fragment {
 
     private int[] tabIcons = {
             R.drawable.ic_shelf,
-            R.drawable.ic_story
+            R.drawable.ic_story,
+            R.drawable.ic_ucl
     };
 
     public static HomePagerFragment newInstance() {
@@ -53,6 +54,7 @@ public class HomePagerFragment extends Fragment {
         mHomePagerAdapter = new HomePagerAdapter(getActivity().getSupportFragmentManager());
         mHomePagerAdapter.addTab(BookListFragment.newInstance(), getString(R.string.shelf));
         mHomePagerAdapter.addTab(StoryListFragment.newInstance(), getString(R.string.story));
+        mHomePagerAdapter.addTab(LibBookListFragment.newInstance(), getString(R.string.lib_book));
     }
 
     @Override
@@ -79,6 +81,10 @@ public class HomePagerFragment extends Fragment {
                     case 1:
                         title = getString(R.string.story);
                         getActivity().findViewById(R.id.fab_new_story).setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        title = getString(R.string.lib_book);
+                        getActivity().findViewById(R.id.fab_new_story).setVisibility(View.GONE);
                         break;
                     default:
                         title = getString(R.string.shelf);
@@ -115,5 +121,10 @@ public class HomePagerFragment extends Fragment {
         tabStory.setText(getString(R.string.story));
         tabStory.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_story, 0, 0);
         tlHome.getTabAt(1).setCustomView(tabStory);
+
+        TextView tabLibBook = (TextView) LayoutInflater.from(this.getContext()).inflate(R.layout.custom_tab, null);
+        tabLibBook.setText(getString(R.string.lib_book));
+        tabLibBook.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_ucl, 0, 0);
+        tlHome.getTabAt(2).setCustomView(tabLibBook);
     }
 }

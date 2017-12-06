@@ -3,7 +3,7 @@
     package="heinhtetoo.yuelibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -20,10 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.BookDetailActivity" />
+        <activity android:name=".activities.BookDetailActivity" >
+        </activity>
         <activity android:name=".activities.UserAccountActivity" />
         <activity android:name=".activities.PdfViewActivity" />
-        <activity android:name=".activities.AddStoryActivity" />
+        <activity
+            android:name=".activities.AddStoryActivity" />
         <activity android:name=".activities.StoryDetailActivity"></activity>
     </application>
 

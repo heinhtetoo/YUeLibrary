@@ -1,7 +1,7 @@
 package heinhtetoo.yuelibrary.views.viewholders;
 
 import android.graphics.Color;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 
 import butterknife.Bind;
+import de.hdodenhof.circleimageview.CircleImageView;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.controllers.StoryItemController;
 import heinhtetoo.yuelibrary.data.vos.StoryVO;
@@ -26,16 +27,10 @@ import heinhtetoo.yuelibrary.utils.MMFontUtils;
 public class StoryVH extends BaseViewHolder<StoryVO> {
 
     @Bind(R.id.iv_author_profile)
-    ImageView ivAuthorProfile;
+    CircleImageView ivAuthorProfile;
 
     @Bind(R.id.tv_author)
     TextView tvAuthor;
-
-    @Bind(R.id.tv_published_date)
-    TextView tvDate;
-
-    @Bind(R.id.tv_react_count)
-    TextView tvReactCount;
 
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -43,14 +38,8 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
     @Bind(R.id.iv_story_pic)
     ImageView ivStoryPic;
 
-    @Bind(R.id.tv_body)
-    TextView tvBody;
-
-    @Bind(R.id.layout_tags)
-    LinearLayout layoutTags;
-
-    @Bind(R.id.tv_attributes_session)
-    TextView tvAttributesSession;
+    @Bind(R.id.tv_tags)
+    TextView tvTags;
 
     private StoryVO mStory;
     private StoryItemController mStoryItemController;
@@ -66,6 +55,7 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
         Glide.with(ivAuthorProfile.getContext())
                 .load(mStory.getAuthorProfileUrl())
                 .placeholder(R.drawable.ic_account)
+                .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivAuthorProfile);
 
@@ -75,42 +65,24 @@ public class StoryVH extends BaseViewHolder<StoryVO> {
                     .placeholder(R.drawable.manga_image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivStoryPic);
-        } else {
-            ivStoryPic.setVisibility(View.GONE);
         }
 
-        layoutTags.removeAllViews();
+        //TODO : show time and views count
 
-        for (String tag : mStory.getTags()) {
-            TextView textView = new TextView(itemView.getContext());
-            MMFontUtils.setMMFont(textView);
-            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            textView.setBackgroundResource(R.color.primary_dark);
-            textView.setGravity(Gravity.CENTER);
-            if (!MMFontUtils.isSupportUnicode()) {
-                textView.setText(Html.fromHtml(MMFontUtils.mmText(tag, MMFontUtils.TEXT_UNICODE, true, true)));
-            } else {
-                textView.setText(Html.fromHtml(tag));
-            }
-            textView.setPadding(16, 16, 16, 16);
-            textView.setTextColor(Color.WHITE);
-            textView.setMaxLines(1);
-            layoutTags.addView(textView);
+        tvAuthor.setText(MMFontUtils.mmTextUnicodeOrigin(mStory.getAuthorName()));
+        tvTitle.setText(MMFontUtils.mmTextUnicodeOrigin(mStory.getTitle()));
+
+        if (0 < mStory.getTags().size()) {
+            tvTags.setText(mStory.getTags().get(0));
+            tvTags.setVisibility(View.VISIBLE);
         }
-
-        tvAuthor.setText(mStory.getAuthorName());
-        tvDate.setText(mStory.getPublishedDate());
-        tvReactCount.setText(String.valueOf(mStory.getReactList().size()));
-        tvTitle.setText(mStory.getTitle());
-        tvBody.setText(mStory.getBody());
-
-        String comments = String.valueOf(mStory.getCommentList().size());
-        String views = String.valueOf(mStory.getViewList().size());
-        tvAttributesSession.setText(comments + "Comments     " + "|     " + views + "Views");
+        else {
+            tvTags.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onClick(View view) {
-        mStoryItemController.onClickBook(view, mStory);
+        mStoryItemController.onClickStory(view, mStory);
     }
 }

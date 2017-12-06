@@ -7,28 +7,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,29 +51,53 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
 
     private UserModel mUserModel;
 
+    @Bind(R.id.iv_back)
+    ImageView ivBack;
+
     @Bind(R.id.iv_profile_pic)
     ImageView ivProfile;
 
     @Bind(R.id.tv_user_name)
     TextView tvUserName;
 
-    @Bind(R.id.email_holder)
-    LinearLayout layoutEmailHolder;
-
     @Bind(R.id.tv_email)
     TextView tvEmail;
 
-    @Bind(R.id.phone_holder)
-    LinearLayout layoutPhoneHolder;
-
     @Bind(R.id.tv_phone)
     TextView tvPhone;
+
+    @Bind(R.id.tv_reserved_book_count)
+    TextView tvReserved;
+
+    @Bind(R.id.tv_published_story_count)
+    TextView tvPublished;
 
     @Bind(R.id.btn_google_login)
     Button btnLogin;
 
     @Bind(R.id.btn_logout)
     Button btnLogout;
+
+    @Bind(R.id.layout_user_head)
+    RelativeLayout rlHead;
+
+    @Bind(R.id.profile_holder)
+    CardView cvProfile;
+
+    @Bind(R.id.email_holder)
+    LinearLayout layoutEmailHolder;
+
+    @Bind(R.id.phone_holder)
+    LinearLayout layoutPhoneHolder;
+
+    @Bind(R.id.divider_1)
+    TextView tvDivider1;
+
+    @Bind(R.id.divider_2)
+    TextView tvDivider2;
+
+    @Bind(R.id.dashboard_holder)
+    LinearLayout rlDashboard;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, UserAccountActivity.class);
@@ -136,8 +159,8 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
         super.onStart();
 
         if (mUserModel.isUserSignIn()) {
-            showProgress("Loading");
-            mUserModel.syncJobPosterInfo(mUserModel.getAccountIdFromPref(this), new UserModel.SyncUserInfoDelegate() {
+            showProgress(getString(R.string.file_loading));
+            mUserModel.syncUserInfo(mUserModel.getAccountIdFromPref(this), new UserModel.SyncUserInfoDelegate() {
                 @Override
                 public void syncUserInfo(UserVO user) {
                     updateUser(user);
@@ -156,38 +179,15 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
         }
     }
 
-    /*private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        showProgressDialog(getString(R.string.auth_loading));
-        // [END_EXCLUDE]
+    @OnClick(R.id.iv_back)
+    public void onClickBack() {
+        onBackPressed();
+    }
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUser(user);
-                            btnLogin.setVisibility(View.GONE);
-                            btnLogout.setVisibility(View.VISIBLE);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(UserAccountActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUser(null);
-                        }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-    }*/
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     public void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -238,28 +238,42 @@ public class UserAccountActivity extends AppCompatActivity implements GoogleApiC
 
     private void updateUser(UserVO user) {
         if (user != null) {
-            Glide.with(ivProfile.getContext())
+            Glide.with(getApplicationContext())
                     .load(user.getPhotoUrl())
                     .placeholder(R.drawable.manga_image)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivProfile);
-            tvUserName.setText(user.getDisplayName());
+            tvUserName.setText(MMFontUtils.mmTextUnicodeOrigin(user.getDisplayName()));
             tvEmail.setText(user.getEmail());
             tvPhone.setText(user.getPhone());
+            tvReserved.setText(String.valueOf(user.getReservedBookList().size()));
+            tvPublished.setText(String.valueOf(user.getPublishedStoryList().size()));
+
+            ivProfile.setVisibility(View.VISIBLE);
+            tvUserName.setVisibility(View.VISIBLE);
 
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
+
+            rlHead.setBackground(getResources().getDrawable(R.drawable.triangle_background));
+            cvProfile.setVisibility(View.VISIBLE);
             layoutEmailHolder.setVisibility(View.VISIBLE);
             layoutPhoneHolder.setVisibility(View.VISIBLE);
+            tvDivider1.setVisibility(View.VISIBLE);
+            tvDivider2.setVisibility(View.VISIBLE);
+            rlDashboard.setVisibility(View.VISIBLE);
             hideProgress();
         } else {
-            ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.ic_account));
-            tvUserName.setText("Kirito-kun");
-
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
+
+            rlHead.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
+            cvProfile.setVisibility(View.GONE);
             layoutEmailHolder.setVisibility(View.GONE);
             layoutPhoneHolder.setVisibility(View.GONE);
+            tvDivider1.setVisibility(View.GONE);
+            tvDivider2.setVisibility(View.GONE);
+            rlDashboard.setVisibility(View.GONE);
         }
     }
 

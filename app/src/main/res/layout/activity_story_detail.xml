@@ -24,22 +24,21 @@
                 android:paddingLeft="@dimen/margin_medium_2"
                 android:paddingRight="@dimen/margin_medium_2"
                 android:paddingStart="@dimen/margin_medium_2"
-                android:paddingTop="@dimen/margin_medium_2"
+                android:paddingTop="@dimen/margin_medium"
                 android:weightSum="6">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_detail_author_profile"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_account"
-                    android:tint="@color/primary" />
+                    android:src="@drawable/ic_account" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3.5"
+                    android:layout_weight="3"
                     android:orientation="vertical"
                     android:weightSum="2">
 
@@ -48,7 +47,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
                         android:paddingLeft="@dimen/margin_medium_2"
                         android:paddingStart="@dimen/margin_medium_2"
                         android:text="User"
@@ -87,7 +87,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_love" />
+                        android:src="@drawable/ic_love"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -110,24 +111,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_view" />
+                        android:src="@drawable/ic_view"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/iv_close_story"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/ic_close"
+                    android:tint="@android:color/black" />
+
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider" />
 
             <TextView
                 android:id="@+id/tv_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/detail_header"
                 android:paddingBottom="@dimen/margin_medium_2"
                 android:paddingEnd="@dimen/margin_medium_2"
                 android:paddingLeft="@dimen/margin_medium_2"
                 android:paddingRight="@dimen/margin_medium_2"
                 android:paddingStart="@dimen/margin_medium_2"
+                android:paddingTop="@dimen/margin_medium"
                 android:text="Heading"
-                android:textSize="@dimen/text_regular_3x"
+                android:textSize="@dimen/text_heading_1x"
                 android:textStyle="bold" />
 
             <ImageView
@@ -150,6 +166,12 @@
                 android:text="Heading"
                 android:textSize="@dimen/text_regular" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@color/divider" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_detail_comment_list"
                 android:layout_width="match_parent"
@@ -160,7 +182,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium_2"
+                android:paddingLeft="@dimen/margin_medium_2"
+                android:paddingRight="@dimen/margin_medium_2"
+                android:paddingStart="@dimen/margin_medium_2"
+                android:paddingTop="@dimen/margin_medium_2"
                 android:weightSum="9.5">
 
                 <EditText
@@ -180,9 +207,35 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/margin_medium_2"
+                android:paddingLeft="@dimen/margin_medium_2"
+                android:paddingRight="@dimen/margin_medium_2"
+                android:paddingStart="@dimen/margin_medium_2"
+                android:paddingTop="@dimen/margin_tiny"
+                android:paddingBottom="0dp"
+                android:text="Tags"
+                android:textColor="@android:color/secondary_text_dark"
+                android:textSize="@dimen/text_small"
+                android:textStyle="bold" />
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium_2"
+                android:paddingLeft="@dimen/margin_medium_2"
+                android:paddingRight="@dimen/margin_medium_2"
+                android:paddingStart="@dimen/margin_medium_2"
+                android:paddingTop="@dimen/margin_tiny">
 
                 <LinearLayout
                     android:id="@+id/layout_detail_tags"
