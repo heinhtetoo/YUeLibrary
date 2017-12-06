@@ -2,8 +2,11 @@ package heinhtetoo.yuelibrary.activities;
 
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+=======
+>>>>>>> 978476e8d88eb78f5cfc1487e25f95ca0b746d09
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +16,7 @@ import android.view.View;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import heinhtetoo.yuelibrary.PdfViewActivity;
+import butterknife.OnClick;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.data.models.BookModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
@@ -40,14 +43,11 @@ public class BookDetailActivity extends AppCompatActivity {
     @Bind(R.id.tv_description)
     TextView tvDescription;*/
 
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
-
     private BookVO mBook;
 
     public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, BookDetailActivity.class);
-        intent.putExtra("bookId", id);
+        intent.putExtra(IE_BOOK_ID, id);
         return intent;
     }
 
@@ -74,6 +74,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
         bindData();
 
+<<<<<<< HEAD
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +84,14 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
         
+=======
+    }
+
+    @OnClick(R.id.fab_view_pdf)
+    public void onClickFabViewPdf(View view) {
+        Intent intent = PdfViewActivity.newIntent(view.getContext(),mBook.getName(), mBook.getDownloadUrl());
+        startActivity(intent);
+>>>>>>> 978476e8d88eb78f5cfc1487e25f95ca0b746d09
     }
 
     @Override
@@ -127,8 +136,8 @@ public class BookDetailActivity extends AppCompatActivity {
             author = mBook.getAuthor();
         }
 
-        if (mBook.getCoverArt() != null && !mBook.getCoverArt().isEmpty()) {
-            cover_art = mBook.getCoverArt();
+        if (mBook.getCover_art() != null && !mBook.getCover_art().isEmpty()) {
+            cover_art = mBook.getCover_art();
         }
 
         if (mBook.getDescription() != null && !mBook.getDescription().isEmpty()) {

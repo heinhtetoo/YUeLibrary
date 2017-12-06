@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="heinhtetoo.yuelibrary.activities.AddStoryActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/primary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:hint="Title"
+                android:maxLines="2"
+                android:text="haha" />
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/cl_added_image"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iv_added_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="center" />
+
+                <ImageView
+                    android:id="@+id/iv_remove_photo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end|top"
+                    android:layout_margin="@dimen/margin_small"
+                    android:src="@drawable/ic_close"
+                    android:tint="@color/primary_dark" />
+
+            </android.support.design.widget.CoordinatorLayout>
+
+            <EditText
+                android:id="@+id/et_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Body" />
+
+            <EditText
+                android:id="@+id/et_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tags" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

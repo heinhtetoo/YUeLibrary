@@ -1,4 +1,4 @@
-package heinhtetoo.yuelibrary;
+package heinhtetoo.yuelibrary.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,12 +7,15 @@ import android.os.Bundle;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.shockwave.pdfium.PdfDocument;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import heinhtetoo.yuelibrary.R;
 
 public class PdfViewActivity extends AppCompatActivity implements OnLoadCompleteListener {
+
+    private static final String IE_NAME = "name";
+    private static final String IE_DOWNLOAD_URL = "downloadUrl";
 
     @Bind(R.id.pv_pdf)
     PDFView pdfView;
@@ -20,8 +23,11 @@ public class PdfViewActivity extends AppCompatActivity implements OnLoadComplete
     public static final String PDF = "tha_ngal_chin.pdf";
     String pdfFileName;
 
-    public static Intent newIntent(Context context) {
+
+    public static Intent newIntent(Context context,String name, String downloadUrl) {
         Intent intent = new Intent(context, PdfViewActivity.class);
+        intent.putExtra(IE_NAME, name);
+        intent.putExtra(IE_DOWNLOAD_URL, downloadUrl);
         return intent;
     }
 
@@ -30,6 +36,9 @@ public class PdfViewActivity extends AppCompatActivity implements OnLoadComplete
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_view);
         ButterKnife.bind(this, this);
+
+        String fileName = getIntent().getStringExtra(IE_NAME);
+        String downloadUrl = getIntent().getStringExtra(IE_DOWNLOAD_URL);
 
         viewFromAssets(PDF);
     }
@@ -47,7 +56,6 @@ public class PdfViewActivity extends AppCompatActivity implements OnLoadComplete
 
     @Override
     public void loadComplete(int nbPages) {
-        PdfDocument.Meta meta = pdfView.getDocumentMeta();
-        setTitle(meta.getTitle() + "");
+
     }
 }

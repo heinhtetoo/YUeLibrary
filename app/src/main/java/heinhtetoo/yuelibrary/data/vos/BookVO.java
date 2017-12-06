@@ -14,7 +14,7 @@ public class BookVO {
 
     private String author;
 
-    private String coverArt;
+    private String cover_art;
 
     private List<String> category;
 
@@ -25,6 +25,21 @@ public class BookVO {
     private String description;
 
     private String downloadUrl;
+
+    public BookVO() {
+    }
+
+    public BookVO(int id, String name, String author, String cover_art, List<String> category, String language, int pageCount, String description, String downloadUrl) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.cover_art = cover_art;
+        this.category = category;
+        this.language = language;
+        this.pageCount = pageCount;
+        this.description = description;
+        this.downloadUrl = downloadUrl;
+    }
 
     public int getId() {
         return id;
@@ -38,8 +53,8 @@ public class BookVO {
         return author;
     }
 
-    public String getCoverArt() {
-        return coverArt;
+    public String getCover_art() {
+        return cover_art;
     }
 
     public List<String> getCategory() {
