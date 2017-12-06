@@ -137,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
         if (UserModel.getInstance().isUserSignIn()) {
             startAddStoryActivity();
         } else {
-            Snackbar.make(tvTitle, "You need to sign in with Google to add story.", Snackbar.LENGTH_INDEFINITE).setAction("Sign In", new View.OnClickListener() {
+            Snackbar.make(tvTitle, "You need to sign in with Google to add story.", Snackbar.LENGTH_LONG).setAction("Sign In", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     startUserAccountActivity();

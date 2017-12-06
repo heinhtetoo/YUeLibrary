@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
 
         buildConfigField 'String', 'Google_Sign_In_Id_Token', "\"${googleSignInIdToken}\""
         buildConfigField 'String', 'Google_Client_Secret', "\"${googleClientSecret}\""
