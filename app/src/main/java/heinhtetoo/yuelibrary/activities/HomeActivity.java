@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,14 +29,17 @@ import butterknife.OnClick;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.adapters.BookListAdapter;
 import heinhtetoo.yuelibrary.controllers.BookItemController;
+import heinhtetoo.yuelibrary.controllers.LibBookItemController;
 import heinhtetoo.yuelibrary.controllers.StoryItemController;
+import heinhtetoo.yuelibrary.data.models.LibBookModel;
 import heinhtetoo.yuelibrary.data.models.UserModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
+import heinhtetoo.yuelibrary.data.vos.LibBookVO;
 import heinhtetoo.yuelibrary.data.vos.StoryVO;
 import heinhtetoo.yuelibrary.events.DataEvents;
 import heinhtetoo.yuelibrary.fragments.HomePagerFragment;
 
-public class HomeActivity extends AppCompatActivity implements BookItemController, StoryItemController {
+public class HomeActivity extends AppCompatActivity implements BookItemController, StoryItemController, LibBookItemController {
 
     private static final int SHELF = 100;
     private static final int STORY = 200;
@@ -54,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
     private int mCurrentIndex;
 
     private DatabaseReference mUserDr;
+    private DatabaseReference mLibBookDr;
 
     @Override
     protected void onStart() {
@@ -61,6 +68,7 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
 
         String userId = UserModel.getInstance().getAccountIdFromPref(this);
         mUserDr = FirebaseDatabase.getInstance().getReference().child(UserModel.LIB_USER);
+        mLibBookDr = FirebaseDatabase.getInstance().getReference().child(LibBookModel.LIB_BOOKS);
         if (userId != null) {
             UserModel.getInstance().loadUserFromPref(userId);
         }
@@ -146,10 +154,33 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
     }
 
     @Override
-    public void onClickBook(View view, StoryVO story) {
+    public void onClickStory(View view, StoryVO story) {
         Intent intent = StoryDetailActivity.newIntent(this, story.getStoryId());
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onClickLibBook(View view, LibBookVO libBook) {
+        //Toast.makeText(this, "Lib Book Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickReserveBook(View view, LibBookVO libBook) {
+        if (UserModel.getInstance().isUserSignIn()) {
+            if (UserModel.getInstance().getUser().getReservedBookList().size() == 3) {
+                Snackbar.make(tvTitle, "You can reserve only 3 books.", Snackbar.LENGTH_LONG).show();
+            } else {
+                reserveBook(view, libBook);
+            }
+        } else {
+            Snackbar.make(tvTitle, "You need to sign in with Google to add story.", Snackbar.LENGTH_INDEFINITE).setAction("Sign In", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startUserAccountActivity();
+                }
+            }).show();
+        }
     }
 
     @Override
@@ -190,6 +221,35 @@ public class HomeActivity extends AppCompatActivity implements BookItemControlle
         Intent intent = UserAccountActivity.newIntent(this);
 
         startActivity(intent);
+    }
+
+    public void reserveBook(View view, LibBookVO libBook) {
+        LibBookVO newLibBook = libBook;
+        List<String> newReservedBookList = new ArrayList<>();
+        boolean flag;
+        String uId;
+        if (libBook.isAvailable()) {
+            libBook.setAvailable(false);
+            flag = false;
+            view.setEnabled(false);
+            uId = UserModel.getInstance().getUser().getAccountId();
+            newReservedBookList = UserModel.getInstance().getUser().getReservedBookList();
+        } else {
+            libBook.setAvailable(true);
+            flag = true;
+            view.setEnabled(true);
+            uId = null;
+        }
+        newLibBook.setAvailable(flag);
+        newLibBook.setReservedUserId(uId);
+        mLibBookDr.child(String.valueOf(newLibBook.getId())).removeValue();
+        mLibBookDr.child(String.valueOf(newLibBook.getId())).setValue(newLibBook);
+
+        newReservedBookList.add(String.valueOf(newLibBook.getId()));
+        mUserDr.child(uId).child("reservedBookList").removeValue();
+        mUserDr.child(uId).child("reservedBookList").setValue(newReservedBookList);
+
+        LibBookModel.getInstance().loadLibBooks();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

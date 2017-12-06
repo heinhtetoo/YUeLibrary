@@ -12,6 +12,7 @@ import butterknife.Bind;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.controllers.BookItemController;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
+import heinhtetoo.yuelibrary.utils.MMFontUtils;
 
 /**
  * Created by Hein Htet Oo on 11/21/2017.
@@ -42,8 +43,7 @@ public class BookVH extends BaseViewHolder<BookVO> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivCover);
 
-        //Log.d("book-cover", mBook.getCover_art() + "");
-        tvName.setText(mBook.getName());
+        tvName.setText(MMFontUtils.mmTextUnicodeOrigin(mBook.getName()));
     }
 
     @Override

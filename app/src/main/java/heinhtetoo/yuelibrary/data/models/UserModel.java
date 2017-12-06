@@ -25,8 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import heinhtetoo.yuelibrary.R;
-import heinhtetoo.yuelibrary.activities.UserAccountActivity;
 import heinhtetoo.yuelibrary.data.vos.UserVO;
 import heinhtetoo.yuelibrary.utils.PrefUtils;
 
@@ -82,7 +83,7 @@ public class UserModel {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            checkExistingJobPoster(acct, delegate);
+                            checkExistingUser(acct, delegate);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -100,8 +101,8 @@ public class UserModel {
                 });
     }
 
-    private void checkExistingJobPoster(final GoogleSignInAccount signInAccount,
-                                        final SignInWithGoogleAccountDelegate delegate) {
+    private void checkExistingUser(final GoogleSignInAccount signInAccount,
+                                   final SignInWithGoogleAccountDelegate delegate) {
         //String formattedEmail = FirebaseUtils.replaceDotsWithCommas(signInAccount.getEmail());
         DatabaseReference singleAccountDR = mUserDr.child(signInAccount.getId());
         singleAccountDR.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -117,7 +118,7 @@ public class UserModel {
 
                     UserVO newUser = new UserVO(signInAccount.getId(), signInAccount.getDisplayName(),
                             signInAccount.getEmail(), photoUrl,
-                            null, null, null, null);
+                            null, null, null, null, new ArrayList<String>(), new ArrayList<String>());
                     registerNewUser(newUser);
                     delegate.onSuccessSignIn(newUser);
                     mUser = newUser;
@@ -131,7 +132,7 @@ public class UserModel {
         });
     }
 
-    public void syncJobPosterInfo(String accountId, final SyncUserInfoDelegate delegate) {
+    public void syncUserInfo(String accountId, final SyncUserInfoDelegate delegate) {
         DatabaseReference singleAccountDR = mUserDr.child(accountId);
         singleAccountDR.keepSynced(true);
         singleAccountDR.addValueEventListener(new ValueEventListener() {

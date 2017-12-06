@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">YU eLibrary</string>
+    <string name="app_name">LiB</string>
 
-    <string name="auth_loading">Authenticating</string>
+    <string name="auth_loading">Authenticating&#8230;</string>
+    <string name="file_loading">Loading&#8230;</string>
 
     <string name="confirm_logout">Are you sure to Logout?</string>
 
@@ -10,4 +11,8 @@
 
     <string name="shelf">Shelf</string>
     <string name="story">Story</string>
+    <string name="lib_book">UCL</string>
+
+    <string name="book_available">Available</string>
+    <string name="book_reserved">Reserved</string>
 </resources>

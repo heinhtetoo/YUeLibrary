@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_medium"
+    android:weightSum="4">
+
+    <ImageView
+        android:id="@+id/iv_lib_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_weight="1"
+        android:src="@drawable/manga_image" />
+
+    <RelativeLayout
+        android:id="@+id/layout_book_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_lib_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="A Song of Ice and Fire"
+            android:textSize="@dimen/text_regular_2x"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_lib_book_title"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:text="@string/book_available"
+            android:textColor="@color/book_available"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_reserve"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:enabled="true"
+            android:text="Reserve" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.data.models.BookModel;
 import heinhtetoo.yuelibrary.data.vos.BookVO;
+import heinhtetoo.yuelibrary.utils.MMFontUtils;
 
 public class BookDetailActivity extends AppCompatActivity {
 
@@ -44,6 +46,12 @@ public class BookDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.tv_description)
     TextView tvDescription;
+
+    @Bind(R.id.tv_page_count)
+    TextView tvPageCount;
+
+    @Bind(R.id.tv_language)
+    TextView tvLanguage;
 
     private BookVO mBook;
 
@@ -72,9 +80,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.fab_view_pdf)
-    public void onClickFabViewPdf(View view) {
-        Intent intent = PdfViewActivity.newIntent(view.getContext(),mBook.getName(), mBook.getDownloadUrl());
+    @OnClick(R.id.btn_read)
+    public void onClickBtnRead(View view) {
+        Intent intent = PdfViewActivity.newIntent(view.getContext(), mBook.getName(), mBook.getDownload_url());
         startActivity(intent);
     }
 
@@ -100,11 +108,12 @@ public class BookDetailActivity extends AppCompatActivity {
         String cover_art = "";
         String categoryStr = "";
         String description = "unavailable";
+        String language = "unknown";
 
         if (mBook.getCategory().size() > 0) {
             List<String> categoryArray = mBook.getCategory();
             for (int i = 0; i < categoryArray.size(); i++) {
-                categoryStr += categoryArray.get(i) + ", ";
+                categoryStr += categoryArray.get(i) + "| ";
             }
             categoryStr = categoryStr.trim();
             categoryStr = categoryStr.substring(0, categoryStr.length() - 1);
@@ -128,6 +137,15 @@ public class BookDetailActivity extends AppCompatActivity {
             description = mBook.getDescription();
         }
 
+        if (mBook.getLanguage() != null && !mBook.getLanguage().isEmpty()) {
+            language = mBook.getLanguage();
+        }
+
+        name = MMFontUtils.mmTextUnicodeOrigin(name);
+        author = MMFontUtils.mmTextUnicodeOrigin(author);
+        description = MMFontUtils.mmTextUnicodeOrigin(description);
+        language = MMFontUtils.mmTextUnicodeOrigin(language);
+
         Glide.with(ivCover.getContext())
                 .load(cover_art)
                 .placeholder(R.drawable.manga_image)
@@ -137,5 +155,7 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor.setText(author);
         tvCategories.setText(categoryStr);
         tvDescription.setText(description);
+        tvPageCount.setText(mBook.getPageCount() + " pages");
+        tvLanguage.setText(language);
     }
 }

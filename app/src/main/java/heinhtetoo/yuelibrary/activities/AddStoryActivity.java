@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import heinhtetoo.yuelibrary.R;
 import heinhtetoo.yuelibrary.data.models.StoryModel;
+import heinhtetoo.yuelibrary.data.models.UserModel;
 import heinhtetoo.yuelibrary.utils.MMFontUtils;
 
 public class AddStoryActivity extends AppCompatActivity {
@@ -53,11 +57,25 @@ public class AddStoryActivity extends AppCompatActivity {
     @Bind(R.id.et_tags)
     EditText etTags;
 
+    private DatabaseReference mUserDr;
+
+    private int newStoryId;
     private String mPhotoUrl = "";
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, AddStoryActivity.class);
         return intent;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String userId = UserModel.getInstance().getAccountIdFromPref(this);
+        mUserDr = FirebaseDatabase.getInstance().getReference().child(UserModel.LIB_USER);
+        if (userId != null) {
+            UserModel.getInstance().loadUserFromPref(userId);
+        }
     }
 
     @Override
@@ -129,18 +147,20 @@ public class AddStoryActivity extends AppCompatActivity {
         } else {
             showProgressDialogInfinite("Posting your story");
             if (mPhotoUrl.isEmpty()) {
-                dismissProgressDialog();
                 StoryModel.getInstance().addStory(storyTitle, storyBody, tagList, null);
-                onBackPressed();
+                dismissProgressDialog();
+                updateUserPublishedCount();
                 StoryModel.getInstance().loadStories();
+                onBackPressed();
             } else {
                 StoryModel.getInstance().uploadFile(mPhotoUrl, new StoryModel.UploadFileCallback() {
                     @Override
                     public void onUploadSucceeded(String uploadedPaths) {
-                        StoryModel.getInstance().addStory(storyTitle, storyBody, tagList, uploadedPaths);
+                        newStoryId = StoryModel.getInstance().addStory(storyTitle, storyBody, tagList, uploadedPaths);
                         dismissProgressDialog();
-                        onBackPressed();
+                        updateUserPublishedCount();
                         StoryModel.getInstance().loadStories();
+                        onBackPressed();
                     }
 
                     @Override
@@ -178,6 +198,17 @@ public class AddStoryActivity extends AppCompatActivity {
                 .placeholder(R.drawable.manga_image)
                 .error(R.drawable.manga_image)
                 .into(ivAddedPhoto);
+    }
+
+    public void updateUserPublishedCount() {
+        List<String> newPublishedStoryList;
+        newPublishedStoryList = UserModel.getInstance().getUser().getPublishedStoryList();
+
+        String uId = UserModel.getInstance().getUser().getAccountId();
+
+        newPublishedStoryList.add(String.valueOf(newStoryId));
+        mUserDr.child(uId).child("publishedStoryList").removeValue();
+        mUserDr.child(uId).child("publishedStoryList").setValue(newPublishedStoryList);
     }
 
     private void showProgressDialogInfinite(String msg) {
