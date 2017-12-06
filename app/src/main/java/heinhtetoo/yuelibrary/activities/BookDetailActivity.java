@@ -2,6 +2,7 @@ package heinhtetoo.yuelibrary.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +25,7 @@ public class BookDetailActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.iv_book_cover)
+   /* @Bind(R.id.iv_book_cover)
     ImageView ivCover;
 
     @Bind(R.id.tv_name)
@@ -44,7 +38,7 @@ public class BookDetailActivity extends AppCompatActivity {
     TextView tvCategories;
 
     @Bind(R.id.tv_description)
-    TextView tvDescription;
+    TextView tvDescription;*/
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
@@ -62,6 +56,12 @@ public class BookDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         ButterKnife.bind(this, this);
+
+        AppBarLayout appBarLayout=(AppBarLayout)findViewById(R.id.appbar);
+
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("Book Details");
+        setSupportActionBar(toolbar);
 
         int bookId = getIntent().getIntExtra(IE_BOOK_ID, 0);
         mBook = BookModel.getInstance().getBookById(bookId);
@@ -81,6 +81,8 @@ public class BookDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        
     }
 
     @Override
@@ -106,7 +108,7 @@ public class BookDetailActivity extends AppCompatActivity {
         String categoryStr = "";
         String description = "unavailable";
 
-        if (mBook.getCategory().size() > 0) {
+       /* if (mBook.getCategory().size() > 0) {
             List<String> categoryArray = mBook.getCategory();
             for (int i = 0; i < categoryArray.size(); i++) {
                 categoryStr += categoryArray.get(i) + ", ";
@@ -132,8 +134,8 @@ public class BookDetailActivity extends AppCompatActivity {
         if (mBook.getDescription() != null && !mBook.getDescription().isEmpty()) {
             description = mBook.getDescription();
         }
-
-        Glide.with(ivCover.getContext())
+*/
+        /*Glide.with(ivCover.getContext())
                 .load(cover_art)
                 .placeholder(R.drawable.manga_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -141,6 +143,6 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle.setText(name);
         tvAuthor.setText(author);
         tvCategories.setText(categoryStr);
-        tvDescription.setText(description);
+        tvDescription.setText(description);*/
     }
 }

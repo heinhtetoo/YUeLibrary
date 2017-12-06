@@ -10,13 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.HomeActivity">
+
+        </activity>
+        <activity android:name=".activities.BookDetailActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.BookDetailActivity" />
         <activity android:name=".activities.UserAccountActivity" />
         <activity android:name=".PdfViewActivity"></activity>
     </application>
