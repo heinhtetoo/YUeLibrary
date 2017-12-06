@@ -72,6 +72,7 @@ public class BookDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.activity_book_detail));
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 

@@ -73,7 +73,7 @@ public class UserModel {
                                        final SignInWithGoogleAccountDelegate delegate) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
-        delegate.showProgressDialog("Authenticating");
+        delegate.showProgressDialog("Authenticating...");
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)

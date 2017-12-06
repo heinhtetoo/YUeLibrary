@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">LiB</string>
+    <string name="activity_book_detail">Book Detail</string>
+    <string name="activity_add_new_story">Add New Story</string>
 
     <string name="auth_loading">Authenticating&#8230;</string>
     <string name="file_loading">Loading&#8230;</string>
